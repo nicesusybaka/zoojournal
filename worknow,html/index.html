@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animal Stories</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 500px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input, textarea, button {
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #stories {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .story {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .story img, .story video {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🐾 Share Your Animal Story</h1>
+    <p>Post your favorite animal moments with photos or videos!</p>
+  </header>
+
+  <main>
+    <form id="storyForm">
+      <input type="text" id="title" placeholder="Story Title" required />
+      <textarea id="description" placeholder="Tell us about your animal..." required></textarea>
+      <input type="file" id="media" accept="image/*,video/*" required />
+      <button type="submit">Post Story</button>
+    </form>
+
+    <section id="stories"></section>
+  </main>
+
+  <script>
+    document.getElementById('storyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('title').value;
+      const description = document.getElementById('description').value;
+      const mediaFile = document.getElementById('media').files[0];
+
+      const storySection = document.getElementById('stories');
+      const storyDiv = document.createElement('div');
+      storyDiv.className = 'story';
+
+      storyDiv.innerHTML = `<h2>${title}</h2><p>${description}</p>`;
+
+      if (mediaFile) {
+        const mediaURL = URL.createObjectURL(mediaFile);
+        if (mediaFile.type.startsWith('image')) {
+          storyDiv.innerHTML += `<img src="${mediaURL}" alt="Animal Image">`;
+        } else if (mediaFile.type.startsWith('video')) {
+          storyDiv.innerHTML += `<video controls><source src="${mediaURL}" type="${mediaFile.type}"></video>`;
+        }
+      }
+
+      storySection.prepend(storyDiv);
+      this.reset();
+    });
+  </script>
+</body>
+</html>
